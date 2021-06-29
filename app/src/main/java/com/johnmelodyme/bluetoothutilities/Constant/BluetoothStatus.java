@@ -9,7 +9,9 @@ public enum BluetoothStatus
         }
     },
 
-    BLUETOOTH_DISABLED,
+    BLUETOOTH_DISABLED {
+
+    },
 
     BLUETOOTH_NOT_FOUND,
 }
