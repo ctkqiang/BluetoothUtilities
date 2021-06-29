@@ -27,6 +27,7 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
 import java.util.List;
+import java.util.function.Function;
 
 public class Functions
 {
@@ -209,6 +210,19 @@ public class Functions
     {
         IntentFilter filter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
         context.registerReceiver(receiver, filter);
+    }
+
+    /**
+     * @param context
+     * required Context for register
+     * @param classname
+     * required for routing {@link #route_to(Context, Class)}
+     */
+    public static void route_to(Context context,  Class<?> classname)
+    {
+        log_output("{:ok, route_to/2, to:" + classname + "}", LogLevel.DEBUG);
+        Intent navigation = new Intent(context, classname);
+        context.startActivity(navigation);
     }
 
 

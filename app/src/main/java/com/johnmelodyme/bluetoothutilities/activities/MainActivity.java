@@ -116,6 +116,14 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+
+        unregisterReceiver(bluetooth_state_receiver);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -145,6 +153,12 @@ public class MainActivity extends AppCompatActivity
             case R.id.setdiscover:
             {
                 Functions.set_discoverable(this);
+                break;
+            }
+
+            case R.id.paireddevices:
+            {
+                Functions.route_to(context, PairedDevices.class);
                 break;
             }
 

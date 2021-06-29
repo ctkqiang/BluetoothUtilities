@@ -49,6 +49,14 @@
                 android:onClick="onButtonClicked"
                 tools:ignore="UsingOnClickInXml" />
 
+            <Button
+                android:id="@+id/paireddevices"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/paired"
+                android:onClick="onButtonClicked"
+                tools:ignore="UsingOnClickInXml" />
+
         </LinearLayout>
     </ScrollView>
 
