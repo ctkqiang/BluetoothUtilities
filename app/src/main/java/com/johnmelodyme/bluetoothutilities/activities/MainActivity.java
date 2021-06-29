@@ -1,16 +1,25 @@
 package com.johnmelodyme.bluetoothutilities.activities;
 
+/**
+ * Copyright (c) 2021 John Melody Me
+ *
+ * Developers own the copyright to software unless the developer is
+ * the client's employee or the software is part of a larger work made
+ * for hire under a written agreement. In order to own the copyright,
+ * the client must have an agreement transferring ownership from the
+ * developer to the client.
+ *
+ * @author: John Melody Me <Johnmelody@dingtalk.com>
+ */
+
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
-
 import com.johnmelodyme.bluetoothutilities.Constant.BluetoothStatus;
 import com.johnmelodyme.bluetoothutilities.Constant.Constant;
 import com.johnmelodyme.bluetoothutilities.Constant.LogLevel;
 import com.johnmelodyme.bluetoothutilities.R;
 import com.johnmelodyme.bluetoothutilities.functions.Functions;
-
-import java.util.function.Function;
 
 
 public class MainActivity extends AppCompatActivity
@@ -40,6 +49,9 @@ public class MainActivity extends AppCompatActivity
         super.onStart();
 
         Functions.log_output("Starting Application", LOG_LEVEL);
+
+        // Get User Permissions instances
+        Functions.get_user_permission(this);
     }
 
     @Override

@@ -9,7 +9,17 @@ public enum LogLevel
         }
     },
 
-    INFO,
+    INFO {
+        public String toString()
+        {
+            return Constant.log_info;
+        }
+    },
 
-    VERBOSE
+    VERBOSE {
+        public String toString()
+        {
+            return Constant.log_verbose;
+        }
+    }
 }

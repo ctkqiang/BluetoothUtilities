@@ -9,4 +9,6 @@ public class Constant
 
     // Log Level
     public static String log_debug = "LOG LEVEL [DEBUG] => ";
+    public static String log_info = "LOG LEVEL [INFO] => ";
+    public static String log_verbose = "LOG LEVEL [VERBOSE] => ";
 }
