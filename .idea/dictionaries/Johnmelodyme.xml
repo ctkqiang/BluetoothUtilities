@@ -2,7 +2,10 @@
   <dictionary name="Johnmelodyme">
     <words>
       <w>bluetoothutilities</w>
+      <w>dicoverability</w>
       <w>johnmelodyme</w>
+      <w>onoffbutton</w>
+      <w>setdiscover</w>
     </words>
   </dictionary>
 </component>

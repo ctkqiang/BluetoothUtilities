@@ -12,15 +12,24 @@ package com.johnmelodyme.bluetoothutilities.activities;
  * @author: John Melody Me <Johnmelody@dingtalk.com>
  */
 
+import android.annotation.SuppressLint;
+import android.bluetooth.BluetoothAdapter;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.bluetooth.BluetoothAdapter;
-import android.content.Context;
-import android.os.Bundle;
-import android.widget.TextView;
-
 import com.johnmelodyme.bluetoothutilities.Constant.BluetoothStatus;
+import com.johnmelodyme.bluetoothutilities.Constant.Constant;
 import com.johnmelodyme.bluetoothutilities.Constant.LogLevel;
 import com.johnmelodyme.bluetoothutilities.R;
 import com.johnmelodyme.bluetoothutilities.functions.Functions;
@@ -33,11 +42,10 @@ public class MainActivity extends AppCompatActivity
     public TextView status;
 
     /**
-     * @param activity
-     * required for rendering action bar within the
-     * instance of the activity
+     * @param activity required for rendering action bar within the
+     *                 instance of the activity
      */
-    public void render_action_bar(AppCompatActivity activity)
+    public void render_action_bar(@NonNull AppCompatActivity activity)
     {
         Functions.log_output("{:ok,  render_action_bar/1}", LOG_LEVEL);
 
@@ -46,11 +54,10 @@ public class MainActivity extends AppCompatActivity
     }
 
     /**
-     * @param bundle
-     * required for user interface rendering at
-     * beginning of the Instance.
+     * @param bundle required for user interface rendering at
+     *               beginning of the Instance.
      */
-    public void render_user_interface(Bundle bundle)
+    public void render_user_interface(@NonNull Bundle bundle)
     {
         Functions.log_output("{:ok, render_user_interface/1}", LOG_LEVEL);
 
@@ -58,26 +65,44 @@ public class MainActivity extends AppCompatActivity
         render_action_bar(this);
 
         // Bluetooth Current Instance and Status
-        status = findViewById(R.id.status);
+        status = (TextView) findViewById(R.id.status);
 
-        try
-        {
-            if (Functions.is_bluetooth_enabled(context) == 1)
-            {
-                status.setText(BluetoothStatus.BLUETOOTH_ENABLED.toString());
-
-                Functions.log_output("{:ok, is_bluetooth_enabled/1, true}", LOG_LEVEL);
-            }
-            else
-            {
-                Functions.enable_bluetooth(this);
-            }
-        } catch (Exception e)
-        {
-            Functions.log_output(e.toString(), LOG_LEVEL);
-        }
+        // Get Bluetooth Status
+        bluetooth_status(this);
 
     }
+
+
+    @SuppressLint("SetTextI18n")
+    private void bluetooth_status(@NonNull AppCompatActivity activity)
+    {
+        Thread newThread = new Thread(() ->
+        {
+            try
+            {
+                if (Functions.is_bluetooth_enabled(context) == 1)
+                {
+                    status.setText("STATUS: " + BluetoothStatus.BLUETOOTH_ENABLED.toString());
+                    status.setTextColor(activity.getResources().getColor(R.color.main));
+
+                    Functions.log_output("{:ok, is_bluetooth_enabled/1, true}", LOG_LEVEL);
+                }
+                else
+                {
+                    status.setText("STATUS: " + BluetoothStatus.BLUETOOTH_DISABLED.toString());
+                    status.setTextColor(activity.getResources().getColor(R.color.red));
+                    Functions.enable_bluetooth(MainActivity.this);
+                }
+            }
+            catch (Exception e)
+            {
+                Functions.log_output(e.toString(), LOG_LEVEL);
+            }
+        });
+
+        newThread.start();
+    }
+
 
     @Override
     protected void onStart()
@@ -87,7 +112,7 @@ public class MainActivity extends AppCompatActivity
         Functions.log_output("{:ok, init_app/1}", LOG_LEVEL);
 
         // Get User Permissions instances
-        Functions.get_user_permission(this);
+        Functions.get_user_permission(context);
     }
 
     @Override
@@ -96,6 +121,122 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Render User Interface
         render_user_interface(savedInstanceState);
+
+        // Initiate Broadcast registration
+        Functions.register_filter(bluetooth_state_receiver, this);
+
     }
+
+    @SuppressLint("NonConstantResourceId")
+    public void onButtonClicked(View view)
+    {
+        Button clickedButton = (Button) view;
+
+        switch (clickedButton.getId())
+        {
+            case R.id.onoffbutton:
+            {
+                Functions.bluetooth_toggle(this);
+                break;
+            }
+
+            case R.id.setdiscover:
+            {
+                Functions.set_discoverable(this);
+                break;
+            }
+
+            default:
+            {
+                break;
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == RESULT_CANCELED)
+        {
+            Functions.show_toast(Constant.bluetooth_required, this);
+        }
+        else if (requestCode == RESULT_OK )
+        {
+            bluetooth_status(this);
+        }
+        else
+        {
+            bluetooth_status(this);
+            Functions.show_toast("{:error, unknown_error/0}", this);
+        }
+    }
+
+
+    public BroadcastReceiver bluetooth_state_receiver = new BroadcastReceiver()
+    {
+        @SuppressLint("SetTextI18n")
+        @Override
+        public void onReceive(Context context, Intent intent)
+        {
+            String action = intent.getAction();
+
+            if (action.equals(BluetoothAdapter.ACTION_STATE_CHANGED))
+            {
+                int state = intent.getIntExtra(
+                        BluetoothAdapter.EXTRA_STATE,
+                        BluetoothAdapter.ERROR
+                );
+
+                switch (state)
+                {
+                    case BluetoothAdapter.STATE_OFF:
+                    {
+                        Functions.show_toast(
+                                "{:ok, bluetooth_state/3, OFF}",
+                                MainActivity.this
+                        );
+                        break;
+                    }
+
+                    case BluetoothAdapter.STATE_TURNING_OFF:
+                    {
+                        Functions.show_toast(
+                                "{:ok, bluetooth_state/3, TURNING_OFF}",
+                                MainActivity.this
+                        );
+                        break;
+                    }
+
+                    case BluetoothAdapter.STATE_TURNING_ON:
+                    {
+                        Functions.show_toast(
+                                "{:ok, bluetooth_state/3, TURNING_ON}",
+                                MainActivity.this
+                        );
+                        break;
+                    }
+
+                    case BluetoothAdapter.STATE_ON:
+                    {
+                        Functions.show_toast(
+                                "{:ok, bluetooth_state/3, ON}",
+                                MainActivity.this
+                        );
+                        status.setText("STATUS: " + BluetoothStatus.BLUETOOTH_ENABLED.toString());
+                        status.setTextColor(getResources().getColor(R.color.main));
+                        break;
+                    }
+
+                    default:
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+    };
 }

@@ -6,6 +6,8 @@ public class Constant
 
     // Bluetooth Status
     public static String bluetooth_on = "BLUETOOTH ENABLED";
+    public static String bluetooth_off = "BLUETOOTH DISABLED";
+    public static String bluetooth_na = "BLUETOOTH NOT AVAILABLE";
 
     // Log Level
     public static String log_debug = "LOG LEVEL [DEBUG] => ";
@@ -14,4 +16,11 @@ public class Constant
 
     // Intents
     public static int REQUEST_ENABLE_BLUETOOTH = 0;
+    public static int REQUEST_DISCOVERABLE = 0;
+
+    // Warnings
+    public static String bluetooth_required = "Bluetooth Required To Be Enabled";
+
+    // Process
+    public static String process_command = "logcat " + android.os.Process.myPid() + " *:D";
 }

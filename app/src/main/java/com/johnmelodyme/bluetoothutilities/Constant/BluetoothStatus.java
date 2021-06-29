@@ -10,8 +10,17 @@ public enum BluetoothStatus
     },
 
     BLUETOOTH_DISABLED {
+        public String toString()
+        {
+            return Constant.bluetooth_off;
+        }
 
     },
 
-    BLUETOOTH_NOT_FOUND,
+    BLUETOOTH_NOT_FOUND {
+        public String toString()
+        {
+            return Constant.bluetooth_na;
+        }
+    },
 }
