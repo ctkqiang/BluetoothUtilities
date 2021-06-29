@@ -7,6 +7,7 @@ import android.bluetooth.BluetoothDevice;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import com.johnmelodyme.bluetoothutilities.Constant.LogLevel;
@@ -26,6 +27,7 @@ public class PairedDevices extends AppCompatActivity
     public ArrayList<String> devices_list = new ArrayList<>();
     public Set<BluetoothDevice> paired_devices;
     public ListView listView;
+    public EditText search;
 
     public void render_user_interface(Bundle bundle)
     {

@@ -6,16 +6,34 @@
     android:layout_height="match_parent"
     tools:context=".activities.PairedDevices">
 
+    <EditText
+        android:id="@+id/search"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginStart="23dp"
+        android:layout_marginEnd="23dp"
+        android:layout_marginTop="23dp"
+        android:layout_marginBottom="2dp"
+        android:paddingStart="23dp"
+        android:hint="@string/search"
+        android:background="@drawable/search_edit_text_border"
+        tools:ignore="RtlSymmetry"
+        android:importantForAutofill="no"
+        android:inputType="text" />
+
     <ListView
         android:id="@+id/listview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="660dp"
+        android:layout_below="@+id/search"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="0dp"
         android:clickable="true"
         android:focusable="true"
         android:theme="@style/CardView.Dark">
 
     </ListView>
-
 
 
 </RelativeLayout>

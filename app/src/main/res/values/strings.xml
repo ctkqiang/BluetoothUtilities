@@ -3,4 +3,5 @@
     <string name="enable_bluetooth">Bluetooth [ON/OFF]</string>
     <string name="set_dicoverability">Make Device Discoverable</string>
     <string name="paired">List All Paired Devices</string>
+    <string name="search">Search</string>
 </resources>
