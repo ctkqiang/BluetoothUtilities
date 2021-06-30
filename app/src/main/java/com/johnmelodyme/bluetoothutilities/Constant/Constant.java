@@ -29,4 +29,5 @@ public class Constant
 
     // Url
     public static String source_code_url = "https://github.com/johnmelodyme/BluetoothUtilities";
+    public static String dev_profile_url = "https://johnmelodyme.github.io/";
 }

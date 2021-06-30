@@ -17,7 +17,6 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,7 +26,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.johnmelodyme.bluetoothutilities.Constant.BluetoothStatus;
@@ -42,7 +40,6 @@ public class MainActivity extends AppCompatActivity
     public static final LogLevel LOG_LEVEL = LogLevel.DEBUG;
     public Context context = MainActivity.this;
     public TextView status;
-
 
     /**
      * @param bundle required for user interface rendering at
@@ -93,7 +90,6 @@ public class MainActivity extends AppCompatActivity
 
         newThread.start();
     }
-
 
     @Override
     protected void onStart()
@@ -297,6 +293,7 @@ public class MainActivity extends AppCompatActivity
 
             case R.id.about:
             {
+                Functions.parse_url(Constant.dev_profile_url, this, ShowWebView.class);
                 return true;
             }
         }

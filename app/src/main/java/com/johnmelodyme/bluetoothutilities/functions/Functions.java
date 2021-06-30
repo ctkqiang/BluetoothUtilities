@@ -9,10 +9,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +33,9 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.Calendar;
 import java.util.Date;
@@ -346,6 +351,41 @@ public class Functions
 
     }
 
-    // TODO https://stackoverflow.com/questions/4715865/how-to-programmatically-tell-if-a
-    //  -bluetooth-device-is-connected
+    /**
+     * @param context The Current instance of the activity for executing command in app
+     * @param command User input shell command eg {@code adb -S bluetooth -d }
+     * @return String
+     */
+    public static String execute_command(Context context, @NonNull String command)
+    {
+        int read;
+        char[] buffer = new char[0x1000];
+
+        StringBuilder output = new StringBuilder();
+        BufferedReader reader;
+        Process process;
+
+        try
+        {
+            process = Runtime.getRuntime().exec(command);
+            reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+
+            while ((read = reader.read(buffer)) > 0x0)
+            {
+                output.append(buffer, 0x0, read);
+            }
+
+            reader.close();
+
+            process.waitFor();
+
+            return output.toString();
+        }
+        catch (IOException | InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+
+        return output.toString();
+    }
 }

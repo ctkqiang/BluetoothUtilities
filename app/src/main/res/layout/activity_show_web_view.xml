@@ -6,8 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".activities.ShowWebView">
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBackgroundTintMode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:progressTint="@color/main"/>
+
     <WebView
         android:id="@+id/wv"
+        android:layout_below="@id/progressBar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
