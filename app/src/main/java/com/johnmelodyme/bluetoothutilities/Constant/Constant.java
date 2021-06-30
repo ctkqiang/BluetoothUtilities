@@ -13,6 +13,7 @@ public class Constant
     public static String log_debug = "LOG LEVEL [DEBUG] => ";
     public static String log_info = "LOG LEVEL [INFO] => ";
     public static String log_verbose = "LOG LEVEL [VERBOSE] => ";
+    public static String log_error = "LOG LEVEL [ERROR] => ";
 
     // Intents
     public static int REQUEST_ENABLE_BLUETOOTH = 0;

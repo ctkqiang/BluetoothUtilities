@@ -41,17 +41,7 @@ public class MainActivity extends AppCompatActivity
     public Context context = MainActivity.this;
     public TextView status;
 
-    /**
-     * @param activity required for rendering action bar within the
-     *                 instance of the activity
-     */
-    public void render_action_bar(@NonNull AppCompatActivity activity)
-    {
-        Functions.log_output("{:ok,  render_action_bar/1}", LOG_LEVEL);
 
-        activity.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        activity.getSupportActionBar().setCustomView(R.layout.action_bar);
-    }
 
     /**
      * @param bundle required for user interface rendering at
@@ -62,7 +52,7 @@ public class MainActivity extends AppCompatActivity
         Functions.log_output("{:ok, render_user_interface/1}", LOG_LEVEL);
 
         // Set Action bar to Center aligned
-        render_action_bar(this);
+        Functions.render_action_bar(this);
 
         // Bluetooth Current Instance and Status
         status = (TextView) findViewById(R.id.status);
@@ -159,6 +149,12 @@ public class MainActivity extends AppCompatActivity
             case R.id.paireddevices:
             {
                 Functions.route_to(context, PairedDevices.class);
+                break;
+            }
+
+            case R.id.scan_new_devices:
+            {
+                Functions.route_to(context, ScanAvailableDevices.class);
                 break;
             }
 

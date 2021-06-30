@@ -4,16 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.PairedDevices">
+    tools:context=".activities.ScanAvailableDevices">
 
     <LinearLayout
-        android:id="@+id/search_layout"
+        android:id="@+id/search_layout_scan"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:orientation="horizontal">
 
         <EditText
-            android:id="@+id/search"
+            android:id="@+id/search_scan"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="8dp"
@@ -22,7 +22,6 @@
             android:layout_marginBottom="2dp"
             android:background="@drawable/search_edit_text_border"
             android:drawableEnd="@drawable/ic_baseline_search_24"
-            android:hapticFeedbackEnabled="true"
             android:hint="@string/search"
             android:importantForAutofill="no"
             android:inputType="text"
@@ -34,10 +33,10 @@
 
 
     <ListView
-        android:id="@+id/listview"
+        android:id="@+id/listview_scan"
         android:layout_width="match_parent"
         android:layout_height="660dp"
-        android:layout_below="@+id/search_layout"
+        android:layout_below="@+id/search_layout_scan"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="8dp"
         android:layout_marginTop="10dp"

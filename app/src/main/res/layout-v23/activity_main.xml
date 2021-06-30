@@ -38,11 +38,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="53dp"
                 android:layout_marginTop="13dp"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
                 android:layout_marginBottom="13dp"
                 android:background="@drawable/button_border"
                 android:onClick="onButtonClicked"
                 android:text="@string/enable_bluetooth"
-                tools:ignore="UsingOnClickInXml" />
+                tools:ignore="UsingOnClickInXml"
+                android:focusable="true" />
 
             <Button
                 android:id="@+id/setdiscover"

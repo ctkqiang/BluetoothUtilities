@@ -21,5 +21,12 @@ public enum LogLevel
         {
             return Constant.log_verbose;
         }
+    },
+
+    ERROR {
+        public String toString()
+        {
+            return Constant.log_error;
+        }
     }
 }

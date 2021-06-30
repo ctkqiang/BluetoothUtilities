@@ -1,14 +1,18 @@
 package com.johnmelodyme.bluetoothutilities.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.johnmelodyme.bluetoothutilities.Constant.LogLevel;
 import com.johnmelodyme.bluetoothutilities.R;
@@ -17,7 +21,6 @@ import com.johnmelodyme.bluetoothutilities.functions.Functions;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Set;
-import java.util.function.Function;
 
 public class PairedDevices extends AppCompatActivity
 {
@@ -29,12 +32,35 @@ public class PairedDevices extends AppCompatActivity
     public ListView listView;
     public EditText search;
 
+    /**
+     * @param bundle required for rendering user interface component
+     */
     public void render_user_interface(Bundle bundle)
     {
         Functions.log_output("{:ok, render_user_interface/1}", LOG_LEVEL);
 
         listView = (ListView) findViewById(R.id.listview);
+        listView.setOnItemClickListener(on_item_clicked);
+
+        search = (EditText) findViewById(R.id.search);
     }
+
+    private final OnItemClickListener on_item_clicked = new OnItemClickListener()
+    {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+        {
+
+            String item = (String) listView.getItemAtPosition(position);
+
+            Functions.log_output(
+                    "\n\n{:ok, on_item_clicked ->\n" + item + "[SELECTED], \n}\n",
+                    LOG_LEVEL
+            );
+
+            Functions.write_into_file(item, PairedDevices.this);
+        }
+    };
 
     public void bluetooth_instance(Bundle bundle)
     {
@@ -59,23 +85,29 @@ public class PairedDevices extends AppCompatActivity
             for (BluetoothDevice bluetoothDevice : paired_devices)
             {
                 devices_list.add(
+                        "\n" +
                         "Bluetooth Name: " + bluetoothDevice.getName() + "\n\n" +
-                        "Bluetooth Address: " + bluetoothDevice.getAddress() + "\n\n" +
+                        "Bluetooth Address: " + bluetoothDevice.getAddress() +
+                        "\n\n" +
                         "Bluetooth Type: " + bluetoothDevice.getType() + "\n\n" +
-                        "Bluetooth Bond State: " + bluetoothDevice.getBondState() + "\n\n" +
-                        "Bluetooth UUID: \n" + Arrays.toString(bluetoothDevice.getUuids()) + "\n\n"
+                        "Bluetooth Bond State: " + bluetoothDevice.getBondState
+                                () + "\n\n" +
+                        "Bluetooth UUID: \n\n" + "{\n" + Arrays.toString
+                                (bluetoothDevice.getUuids()) + "\n}" + "\n\n"
                 );
 
+                paired_devices_list.clear();
                 paired_devices_list.addAll(devices_list);
 
                 Functions.log_output(
-                        "{:ok, get_paired_devices/1" +
-                        "Bluetooth Name: " + bluetoothDevice.getName() + "\n" +
-                        "Bluetooth Address: " + bluetoothDevice.getAddress() + "\n" +
-                        "Bluetooth Type: " + bluetoothDevice.getType() + "\n" +
-                        "Bluetooth Bond State: " + bluetoothDevice.getBondState() + "\n" +
-                        "Bluetooth UUID: \n" + Arrays.toString(bluetoothDevice.getUuids()) + "\n" +
-                        "}",
+                        "\n\n{:ok, get_paired_devices/1" + "\n" +
+                        "\tBluetooth Name: " + bluetoothDevice.getName() + "\n" +
+                        "\tBluetooth Address: " + bluetoothDevice.getAddress() + "\n" +
+                        "\tBluetooth Type: " + bluetoothDevice.getType() + "\n" +
+                        "\tBluetooth Bond State: " + bluetoothDevice.getBondState() + "\n" +
+                        "\tBluetooth UUID: \n" + Arrays.toString(bluetoothDevice.getUuids()) +
+                        "\n" +
+                        "}\n",
                         LOG_LEVEL
                 );
 
@@ -104,20 +136,41 @@ public class PairedDevices extends AppCompatActivity
         );
 
         listView.setAdapter(adapter);
+        search_bluetooth_item(adapter);
     }
 
-    @Override
-    protected void onStart()
+    public void search_bluetooth_item(ArrayAdapter<String> adapter)
     {
-        super.onStart();
-        get_paired_devices();
+        search.addTextChangedListener(new TextWatcher()
+        {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after)
+            {
+                adapter.getFilter().filter(s);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s)
+            {
+                adapter.getFilter().filter(s);
+            }
+        });
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_paired_devices);
+
+        // Set Action bar to Center aligned
+        Functions.render_action_bar(this);
 
         // Render User Interface on
         render_user_interface(savedInstanceState);

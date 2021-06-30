@@ -8,12 +8,13 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.util.Log;
 import android.content.pm.PackageManager;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.johnmelodyme.bluetoothutilities.Constant.BluetoothStatus;
@@ -26,8 +27,11 @@ import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
+
+import java.io.OutputStreamWriter;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
-import java.util.function.Function;
 
 public class Functions
 {
@@ -53,6 +57,11 @@ public class Functions
                 Log.v(TAG, logLevel + message);
                 break;
             }
+            case ERROR:
+            {
+                Log.e(TAG, logLevel + message);
+                break;
+            }
             default:
             {
                 System.out.println(logLevel + message);
@@ -62,12 +71,24 @@ public class Functions
     }
 
     /**
+     * @param activity required for rendering action bar within the
+     *                 instance of the activity
+     */
+    public static void render_action_bar(@NonNull AppCompatActivity activity)
+    {
+        Functions.log_output("{:ok, render_action_bar/1}", LogLevel.DEBUG);
+
+        activity.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        activity.getSupportActionBar().setCustomView(R.layout.action_bar);
+    }
+
+    /**
      * @param context Current instance of the application are required for
      *                getting user permission either accepted or denied.
      */
     public static void get_user_permission(@NonNull Context context)
     {
-        LogLevel permission = LogLevel.INFO;
+        LogLevel permission = LogLevel.DEBUG;
 
         Dexter.withContext(context).withPermissions(
                 Manifest.permission.BLUETOOTH,
@@ -81,14 +102,19 @@ public class Functions
             @Override
             public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport)
             {
-                log_output(multiplePermissionsReport.toString(), permission);
+                log_output("{:ok, get_user_permission/1}", permission);
             }
 
             @Override
             public void onPermissionRationaleShouldBeShown(List<PermissionRequest> l,
                                                            PermissionToken pt)
             {
-                log_output(pt.toString(), permission);
+
+                if (pt != null)
+                {
+                    log_output("{:ok, get_user_permission/1}", permission);
+                }
+
             }
         }).onSameThread().check();
     }
@@ -213,20 +239,78 @@ public class Functions
     }
 
     /**
-     * @param context
-     * required Context for register
-     * @param classname
-     * required for routing {@link #route_to(Context, Class)}
+     * @param context   required Context for register
+     * @param classname required for routing {@link #route_to(Context, Class)}
      */
-    public static void route_to(Context context,  Class<?> classname)
+    public static void route_to(Context context, Class<?> classname)
     {
-        log_output("{:ok, route_to/2, to:" + classname + "}", LogLevel.DEBUG);
+        log_output("{:ok, route_to/2, to:" + classname.getSimpleName() + "}", LogLevel.DEBUG);
         Intent navigation = new Intent(context, classname);
         context.startActivity(navigation);
     }
 
+    /**
+     * @param data    User Input of written data {@code writeData}
+     * @param context the Current instance of the activity for writing the file.
+     */
+    public static void write_into_file(String data, Context context)
+    {
+        Date current = Calendar.getInstance().getTime();
+
+        try
+        {
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(
+                    context.openFileOutput(
+                            current + "bluetooth",
+                            Context.MODE_PRIVATE
+                    )
+            );
+
+            log_output("{:ok, write_into_file/2}", LogLevel.DEBUG);
+
+            outputStreamWriter.write(data);
+            outputStreamWriter.close();
+        }
+        catch (Exception e)
+        {
+            Functions.log_output(e.toString(), LogLevel.ERROR);
+        }
+    }
+
+    /**
+     * @param name      required from user input
+     * @param uuid      required from user input
+     * @param address   required from user input
+     * @param type      required from user input
+     * @param bond      required from user input
+     * @param context   the Current instance of the activity
+     * @param classname the classname of the activity instance parse into
+     *                  <p>
+     *                  {@inheritDoc
+     *                  the parsed data can be recalled by
+     *                  {@code
+     *                  Bundle bundle = getIntent().getExtras();
+     *                  String message = bundle.getString("parameters");
+     *                  }
+     *                  }
+     *                  </p>
+     */
+    public static void parse_bluetooth_data(
+            String name, String uuid, String address, String type, String bond, Context context,
+            @NonNull Class<?> classname
+    )
+    {
+        Intent intent = new Intent(context, classname);
+        intent.putExtra("name", name);
+        intent.putExtra("uuid", uuid);
+        intent.putExtra("address", address);
+        intent.putExtra("type", type);
+        intent.putExtra("bond", bond);
+        context.startActivity(intent);
+
+        Functions.log_output("{:ok, parse_bluetooth_data/7}", LogLevel.DEBUG);
+    }
 
     // TODO https://stackoverflow.com/questions/4715865/how-to-programmatically-tell-if-a
     //  -bluetooth-device-is-connected
-
 }
