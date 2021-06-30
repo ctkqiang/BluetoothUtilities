@@ -34,7 +34,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BluetoothUtilities"
         tools:ignore="AllowBackup">
-        <activity android:name=".activities.ScanAvailableDevices"></activity>
+        <activity android:name=".activities.ShowWebView"></activity>
+        <activity
+            android:name=".activities.ScanAvailableDevices"
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".activities.InfoViewer" />
         <activity
             android:name=".activities.PairedDevices"

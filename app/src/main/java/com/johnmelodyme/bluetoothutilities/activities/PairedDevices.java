@@ -78,22 +78,49 @@ public class PairedDevices extends AppCompatActivity
             listView.clearChoices();
         }
 
+
         if (paired_devices != null)
         {
             Functions.log_output("{:ok, get_paired_devices/1}", LOG_LEVEL);
 
+
             for (BluetoothDevice bluetoothDevice : paired_devices)
             {
+
+                String uuid;
+                String name;
+
+                // Get Bluetooth UUID
+                if (bluetoothDevice.getUuids() == null)
+                {
+                    uuid = "\t\"No UUID Found\"";
+                }
+                else
+                {
+                    uuid = (Arrays.toString(bluetoothDevice.getUuids()).trim());
+                }
+
+                // Get Bluetooth device Name
+                if (bluetoothDevice.getName() == null)
+                {
+                    name = " \"NAME NOT FOUND \" ";
+                }
+                else
+                {
+                    name = bluetoothDevice.getName();
+                }
+
+
                 devices_list.add(
                         "\n" +
-                        "Bluetooth Name: " + bluetoothDevice.getName() + "\n\n" +
+                        "Bluetooth Name: " + name + "\n\n" +
+                        "Bluetooth Class: " + bluetoothDevice.getBluetoothClass() + "\n\n" +
                         "Bluetooth Address: " + bluetoothDevice.getAddress() +
                         "\n\n" +
                         "Bluetooth Type: " + bluetoothDevice.getType() + "\n\n" +
-                        "Bluetooth Bond State: " + bluetoothDevice.getBondState
-                                () + "\n\n" +
-                        "Bluetooth UUID: \n\n" + "{\n" + Arrays.toString
-                                (bluetoothDevice.getUuids()) + "\n}" + "\n\n"
+                        "Bluetooth Bond State: " + bluetoothDevice.getBondState() +
+                        "\n\n" +
+                        "Bluetooth UUID: \n\n" + uuid  + "\n\n"
                 );
 
                 paired_devices_list.clear();
@@ -101,11 +128,12 @@ public class PairedDevices extends AppCompatActivity
 
                 Functions.log_output(
                         "\n\n{:ok, get_paired_devices/1" + "\n" +
-                        "\tBluetooth Name: " + bluetoothDevice.getName() + "\n" +
+                        "\tBluetooth Name: " + name + "\n" +
+                        "\tBluetooth Class: " + bluetoothDevice.getBluetoothClass() + "\n" +
                         "\tBluetooth Address: " + bluetoothDevice.getAddress() + "\n" +
                         "\tBluetooth Type: " + bluetoothDevice.getType() + "\n" +
                         "\tBluetooth Bond State: " + bluetoothDevice.getBondState() + "\n" +
-                        "\tBluetooth UUID: \n" + Arrays.toString(bluetoothDevice.getUuids()) +
+                        "\tBluetooth UUID: \n" + uuid +
                         "\n" +
                         "}\n",
                         LOG_LEVEL

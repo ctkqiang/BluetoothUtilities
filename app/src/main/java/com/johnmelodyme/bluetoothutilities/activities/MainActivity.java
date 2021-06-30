@@ -19,6 +19,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -40,7 +42,6 @@ public class MainActivity extends AppCompatActivity
     public static final LogLevel LOG_LEVEL = LogLevel.DEBUG;
     public Context context = MainActivity.this;
     public TextView status;
-
 
 
     /**
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity
         {
             try
             {
-                if (Functions.is_bluetooth_enabled(context) == 1)
+                if (Functions.is_bluetooth_enabled(context) == 0x1)
                 {
                     status.setText("STATUS: " + BluetoothStatus.BLUETOOTH_ENABLED.toString());
                     status.setTextColor(activity.getResources().getColor(R.color.main));
@@ -174,7 +175,7 @@ public class MainActivity extends AppCompatActivity
         {
             Functions.show_toast(Constant.bluetooth_required, this);
         }
-        else if (requestCode == RESULT_OK )
+        else if (requestCode == RESULT_OK)
         {
             bluetooth_status(this);
         }
@@ -209,6 +210,11 @@ public class MainActivity extends AppCompatActivity
                                 "{:ok, bluetooth_state/3, OFF}",
                                 MainActivity.this
                         );
+
+                        Functions.log_output(
+                                "{:ok, bluetooth_state/3, OFF}",
+                                LOG_LEVEL
+                        );
                         break;
                     }
 
@@ -218,6 +224,12 @@ public class MainActivity extends AppCompatActivity
                                 "{:ok, bluetooth_state/3, TURNING_OFF}",
                                 MainActivity.this
                         );
+
+                        Functions.log_output(
+                                "{:ok, bluetooth_state/3, TURNING_OFF}",
+                                LOG_LEVEL
+                        );
+
                         break;
                     }
 
@@ -226,6 +238,11 @@ public class MainActivity extends AppCompatActivity
                         Functions.show_toast(
                                 "{:ok, bluetooth_state/3, TURNING_ON}",
                                 MainActivity.this
+                        );
+
+                        Functions.log_output(
+                                "{:ok, bluetooth_state/3, TURNING_ON}",
+                                LOG_LEVEL
                         );
                         break;
                     }
@@ -236,6 +253,12 @@ public class MainActivity extends AppCompatActivity
                                 "{:ok, bluetooth_state/3, ON}",
                                 MainActivity.this
                         );
+
+                        Functions.log_output(
+                                "{:ok, bluetooth_state/3, ON}",
+                                LOG_LEVEL
+                        );
+
                         status.setText("STATUS: " + BluetoothStatus.BLUETOOTH_ENABLED.toString());
                         status.setTextColor(getResources().getColor(R.color.main));
                         break;
@@ -249,4 +272,35 @@ public class MainActivity extends AppCompatActivity
             }
         }
     };
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_action_bar, menu);
+        return true;
+    }
+
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.source_code:
+            {
+                Functions.parse_url(Constant.source_code_url, this, ShowWebView.class);
+                return true;
+            }
+
+            case R.id.about:
+            {
+                return true;
+            }
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }

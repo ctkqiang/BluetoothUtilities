@@ -9,7 +9,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.os.Bundle;
 import android.util.Log;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -120,7 +123,7 @@ public class Functions
     }
 
     /**
-     * @return int value 0 and 1
+     * @return int value 0x0 and 0x1
      * 0 : if bluetooth module is not found in the user device
      * 1 : if bluetooth module is found in the user device
      */
@@ -130,35 +133,35 @@ public class Functions
 
         if (b)
         {
-            return 1;
+            return 0x1;
         }
         else
         {
-            return 0;
+            return 0x0;
         }
     }
 
     /**
-     * @return int value 0 and 1
+     * @return int value 0x0 and 0x1
      * 0: if bluetooth is disabled
      * 1: if bluetooth is enabled
      */
     public static int is_bluetooth_enabled(@NonNull Context context)
     {
-        if (is_bluetooth_module_exist(context) == 1)
+        if (is_bluetooth_module_exist(context) == 0x1)
         {
             if (BluetoothAdapter.getDefaultAdapter().isEnabled())
             {
-                return 1;
+                return 0x1;
             }
             else
             {
-                return 0;
+                return 0x0;
             }
         }
         else
         {
-            return 0;
+            return 0x0;
         }
     }
 
@@ -309,6 +312,38 @@ public class Functions
         context.startActivity(intent);
 
         Functions.log_output("{:ok, parse_bluetooth_data/7}", LogLevel.DEBUG);
+    }
+
+    public static void parse_url(@NonNull String url, Context context, @NonNull Class<?> classname)
+    {
+        Intent intent = new Intent(context, classname);
+        intent.putExtra("url", url);
+        context.startActivity(intent);
+
+        Functions.log_output("{:ok, parse_url/3}", LogLevel.DEBUG);
+    }
+
+    /**
+     * @param activity The Current instance of the activity for opening url in app.
+     * @param webView  Link to the webview activity, required for resource
+     */
+    @SuppressLint("SetJavaScriptEnabled")
+    public static void open_url_in_app(@NonNull AppCompatActivity activity, Bundle bundle,
+                                       WebView webView)
+    {
+        String url;
+
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+
+        bundle = activity.getIntent().getExtras();
+        url = bundle.getString("url");
+
+        log_output("{:ok, open_url_in_app/3}", LogLevel.DEBUG);
+
+        webView.animate();
+        webView.loadUrl(url);
+
     }
 
     // TODO https://stackoverflow.com/questions/4715865/how-to-programmatically-tell-if-a

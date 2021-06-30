@@ -10,6 +10,7 @@
       <w>onoffbutton</w>
       <w>paireddevices</w>
       <w>setdiscover</w>
+      <w>webview</w>
     </words>
   </dictionary>
 </component>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/source_code"
+        app:showAsAction="collapseActionView"
+        android:icon="@android:drawable/ic_menu_view"
+        android:title="@string/source" />
+
+    <item
+        android:id="@+id/about"
+        app:showAsAction="collapseActionView"
+        android:icon="@android:drawable/ic_menu_info_details"
+        android:title="@string/about" />
+</menu>

@@ -27,7 +27,7 @@
                 android:layout_marginStart="23dp"
                 android:layout_marginTop="3dp"
                 android:layout_marginEnd="23dp"
-                android:layout_marginBottom="23dp"
+                android:layout_marginBottom="3dp"
                 android:textAlignment="center"
                 android:textSize="23sp"
                 android:textStyle="bold" />
@@ -37,7 +37,7 @@
                 android:id="@+id/onoffbutton"
                 android:layout_width="match_parent"
                 android:layout_height="53dp"
-                android:layout_marginTop="13dp"
+                android:layout_marginTop="3dp"
                 android:layout_marginBottom="13dp"
                 android:background="@drawable/button_border"
                 android:onClick="onButtonClicked"
