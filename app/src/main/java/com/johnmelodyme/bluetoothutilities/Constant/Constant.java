@@ -30,4 +30,10 @@ public class Constant
     // Url
     public static String source_code_url = "https://github.com/johnmelodyme/BluetoothUtilities";
     public static String dev_profile_url = "https://johnmelodyme.github.io/";
+
+    // Bluetooth Assigned Services
+    public static String BLUETOOTH_SERIAL = "00001101-0000-1000-8000-00805f9b34fb";
+
+    // User Interfaces
+    public static String SEARCH_BAR = "Search";
 }

@@ -4,6 +4,8 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -356,7 +358,7 @@ public class Functions
      * @param command User input shell command eg {@code adb -S bluetooth -d }
      * @return String
      */
-    public static String execute_command(Context context, @NonNull String command)
+    public static String execute_command(Context context, @NonNull String[] command)
     {
         int read;
         char[] buffer = new char[0x1000];
@@ -387,5 +389,20 @@ public class Functions
         }
 
         return output.toString();
+    }
+
+    /**
+     * @param context  The Current instance of the activity for executing command in app
+     * @param receiver The BroadcastReceiver for
+     */
+    public static void register_device(Context context, BroadcastReceiver receiver)
+    {
+        IntentFilter discovery_filter;
+
+        discovery_filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+
+        Functions.log_output("{:ok, register_device/2}", LogLevel.DEBUG);
+
+        context.registerReceiver(receiver, discovery_filter);
     }
 }

@@ -1,7 +1,5 @@
 package com.johnmelodyme.bluetoothutilities.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.job.JobScheduler;
 import android.app.job.JobService;
 import android.bluetooth.BluetoothAdapter;
@@ -17,26 +15,34 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
+import android.widget.SearchView;
 import android.widget.ListView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.johnmelodyme.bluetoothutilities.Constant.BluetoothStatus;
+import com.johnmelodyme.bluetoothutilities.Constant.Constant;
 import com.johnmelodyme.bluetoothutilities.Constant.LogLevel;
 import com.johnmelodyme.bluetoothutilities.R;
 import com.johnmelodyme.bluetoothutilities.functions.Functions;
+import com.johnmelodyme.bluetoothutilities.model.DiscoveredDevices;
+import com.johnmelodyme.bluetoothutilities.user_interface.BluetoothCustomAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.UUID;
 
 public class ScanAvailableDevices extends AppCompatActivity
 {
     public static final LogLevel LOG_LEVEL = LogLevel.DEBUG;
+    public static UUID BLUETOOTH_UUID;
+    public static BluetoothCustomAdapter bluetoothCustomAdapter;
     public static BluetoothAdapter bluetoothAdapter;
     public static BluetoothDevice bluetoothDevice;
-    public ArrayList<String> discovered_devices_list = new ArrayList<>();
-    public ArrayList<String> available_devices_list = new ArrayList<>();
+    public ArrayList<DiscoveredDevices> discovered_devices_list = new ArrayList<>();
+    public ArrayList<DiscoveredDevices> available_devices_list = new ArrayList<>();
     public ListView listView;
-    public EditText search;
+    public SearchView search;
 
     public void render_user_interface(Bundle bundle)
     {
@@ -45,7 +51,7 @@ public class ScanAvailableDevices extends AppCompatActivity
         listView = (ListView) findViewById(R.id.listview_scan);
         listView.setOnItemClickListener(on_item_clicked);
 
-        search = (EditText) findViewById(R.id.search_scan);
+        search = (SearchView) findViewById(R.id.search_scan);
     }
 
     public void bluetooth_instance(Bundle bundle)
@@ -53,6 +59,7 @@ public class ScanAvailableDevices extends AppCompatActivity
         Functions.log_output("{:ok, bluetooth_instance}", LOG_LEVEL);
 
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        BLUETOOTH_UUID = UUID.fromString(Constant.BLUETOOTH_SERIAL);
     }
 
     public void scan_available_devices(Context context)
@@ -146,15 +153,13 @@ public class ScanAvailableDevices extends AppCompatActivity
                 if (bluetoothDevice != null)
                 {
                     available_devices_list.add(
-                            "\n" +
-                            "Bluetooth Name: " + name + "\n\n" +
-                            "Bluetooth Class: " + bluetoothDevice.getBluetoothClass() + "\n\n" +
-                            "Bluetooth Address: " + bluetoothDevice.getAddress() +
-                            "\n\n" +
-                            "Bluetooth Type: " + bluetoothDevice.getType() + "\n\n" +
-                            "Bluetooth Bond State: " + bluetoothDevice.getBondState() +
-                            "\n\n" +
-                            "Bluetooth UUID: \n\n" + uuid + "\n\n"
+                            new DiscoveredDevices(
+                                    name,
+                                    bluetoothDevice.getAddress(),
+                                    bluetoothDevice.getBondState(),
+                                    bluetoothDevice.getType(),
+                                    bluetoothDevice.getUuids()
+                            )
                     );
 
                     discovered_devices_list.clear();
@@ -173,7 +178,7 @@ public class ScanAvailableDevices extends AppCompatActivity
                             LOG_LEVEL
                     );
 
-                    render_list();
+                    render_list(available_devices_list, ScanAvailableDevices.this);
                 }
             }
 
@@ -215,61 +220,22 @@ public class ScanAvailableDevices extends AppCompatActivity
         }
     };
 
-    public void render_list()
+    public void render_list(ArrayList<DiscoveredDevices> discoveredDevices, Context context)
     {
         Functions.log_output("{:ok, render_list/1}", LOG_LEVEL);
 
-        ArrayAdapter<String> adapter;
+        bluetoothCustomAdapter = new BluetoothCustomAdapter(discoveredDevices, context);
 
-        adapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_list_item_1,
-                discovered_devices_list
-        );
-
-        listView.setAdapter(adapter);
-        search_bluetooth_item(adapter);
+        listView.setAdapter(bluetoothCustomAdapter);
     }
 
-    private final AdapterView.OnItemClickListener on_item_clicked = new AdapterView.OnItemClickListener()
+    public final AdapterView.OnItemClickListener on_item_clicked = (parent, view, position, id) ->
     {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-        {
+        DiscoveredDevices discoveredDevices = available_devices_list.get(position);
 
-            String item = (String) listView.getItemAtPosition(position);
-
-            Functions.log_output(
-                    "\n\n{:ok, on_item_clicked ->\n" + item + "[SELECTED], \n}\n",
-                    LOG_LEVEL
-            );
-
-            Functions.write_into_file(item, ScanAvailableDevices.this);
-        }
+        Functions.log_output(discoveredDevices.getAddress(), LOG_LEVEL);
     };
 
-    public void search_bluetooth_item(ArrayAdapter<String> adapter)
-    {
-        search.addTextChangedListener(new TextWatcher()
-        {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after)
-            {
-                adapter.getFilter().filter(s);
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count)
-            {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s)
-            {
-                adapter.getFilter().filter(s);
-            }
-        });
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)

@@ -12,7 +12,7 @@
         android:layout_height="80dp"
         android:orientation="horizontal">
 
-        <EditText
+        <SearchView
             android:id="@+id/search"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -21,13 +21,14 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="2dp"
             android:background="@drawable/search_edit_text_border"
-            android:drawableEnd="@drawable/ic_baseline_search_24"
-            android:hapticFeedbackEnabled="true"
+            android:divider="@android:color/transparent"
             android:hint="@string/search"
+            android:hapticFeedbackEnabled="true"
             android:importantForAutofill="no"
             android:inputType="text"
             android:paddingStart="23dp"
             android:paddingEnd="23dp"
+            app:queryBackground="@android:color/transparent"
             tools:ignore="RtlSymmetry" />
 
     </LinearLayout>

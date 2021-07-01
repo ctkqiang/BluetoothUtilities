@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity
     public static final LogLevel LOG_LEVEL = LogLevel.DEBUG;
     public Context context = MainActivity.this;
     public TextView status;
+    public TextView process_view;
+
 
     /**
      * @param bundle required for user interface rendering at
@@ -54,10 +56,10 @@ public class MainActivity extends AppCompatActivity
 
         // Bluetooth Current Instance and Status
         status = (TextView) findViewById(R.id.status);
+        process_view = (TextView) findViewById(R.id.process);
 
         // Get Bluetooth Status
         bluetooth_status(this);
-
     }
 
 
@@ -122,6 +124,9 @@ public class MainActivity extends AppCompatActivity
         // Initiate Broadcast registration
         Functions.register_filter(bluetooth_state_receiver, this);
 
+        // Render Process
+        // render_process(savedInstanceState, new String[]{"sh", "-l", "-c", "adb -d -s
+        // bluetooth"});
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -299,5 +304,10 @@ public class MainActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void render_process(Bundle bundle, String[] command)
+    {
+        process_view.setText(Functions.execute_command(this, command));
     }
 }
