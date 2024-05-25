@@ -1,10 +1,10 @@
-package com.johnmelodyme.bluetoothutilities.activities;
+package cn.ctkqiang.bluetoothutilities.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-import com.johnmelodyme.bluetoothutilities.R;
+import cn.ctkqiang.bluetoothutilities.R;
 
 public class InfoViewer extends AppCompatActivity
 {

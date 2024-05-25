@@ -1,4 +1,4 @@
-package com.johnmelodyme.bluetoothutilities;
+package cn.ctkqiang.bluetoothutilities;
 
 import org.junit.Test;
 

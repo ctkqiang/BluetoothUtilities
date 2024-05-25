@@ -1,7 +1,7 @@
-package com.johnmelodyme.bluetoothutilities.activities;
+package cn.ctkqiang.bluetoothutilities.activities;
 
 /**
- * Copyright (c) 2021 John Melody Me
+ * Copyright (c) 钟智强
  * <p>
  * Developers own the copyright to software unless the developer is
  * the client's employee or the software is part of a larger work made
@@ -9,7 +9,7 @@ package com.johnmelodyme.bluetoothutilities.activities;
  * the client must have an agreement transferring ownership from the
  * developer to the client.
  *
- * @author: John Melody Me <Johnmelody@dingtalk.com>
+ * @author: 钟智强 <johnmelodymel@qq.com>
  */
 
 import android.annotation.SuppressLint;
@@ -28,11 +28,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.johnmelodyme.bluetoothutilities.Constant.BluetoothStatus;
-import com.johnmelodyme.bluetoothutilities.Constant.Constant;
-import com.johnmelodyme.bluetoothutilities.Constant.LogLevel;
-import com.johnmelodyme.bluetoothutilities.R;
-import com.johnmelodyme.bluetoothutilities.functions.Functions;
+import cn.ctkqiang.bluetoothutilities.Constant.BluetoothStatus;
+import cn.ctkqiang.bluetoothutilities.Constant.Constant;
+import cn.ctkqiang.bluetoothutilities.Constant.LogLevel;
+import cn.ctkqiang.bluetoothutilities.R;
+import cn.ctkqiang.bluetoothutilities.functions.Functions;
 
 
 public class MainActivity extends AppCompatActivity
@@ -76,15 +76,13 @@ public class MainActivity extends AppCompatActivity
                     status.setTextColor(activity.getResources().getColor(R.color.main));
 
                     Functions.log_output("{:ok, is_bluetooth_enabled/1, true}", LOG_LEVEL);
-                }
-                else
+                } else
                 {
                     status.setText("STATUS: " + BluetoothStatus.BLUETOOTH_DISABLED.toString());
                     status.setTextColor(activity.getResources().getColor(R.color.red));
                     Functions.enable_bluetooth(MainActivity.this);
                 }
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 Functions.log_output(e.toString(), LOG_LEVEL);
             }
@@ -175,12 +173,10 @@ public class MainActivity extends AppCompatActivity
         if (requestCode == RESULT_CANCELED)
         {
             Functions.show_toast(Constant.bluetooth_required, this);
-        }
-        else if (requestCode == RESULT_OK)
+        } else if (requestCode == RESULT_OK)
         {
             bluetooth_status(this);
-        }
-        else
+        } else
         {
             bluetooth_status(this);
             Functions.show_toast("{:error, unknown_error/0}", this);

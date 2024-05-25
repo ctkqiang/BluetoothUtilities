@@ -1,4 +1,4 @@
-package com.johnmelodyme.bluetoothutilities.Constant;
+package cn.ctkqiang.bluetoothutilities.Constant;
 
 public class Constant
 {

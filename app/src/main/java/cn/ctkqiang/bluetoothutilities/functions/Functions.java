@@ -1,4 +1,4 @@
-package com.johnmelodyme.bluetoothutilities.functions;
+package cn.ctkqiang.bluetoothutilities.functions;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -24,10 +24,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.johnmelodyme.bluetoothutilities.Constant.BluetoothStatus;
-import com.johnmelodyme.bluetoothutilities.Constant.Constant;
-import com.johnmelodyme.bluetoothutilities.Constant.LogLevel;
-import com.johnmelodyme.bluetoothutilities.R;
+import cn.ctkqiang.bluetoothutilities.Constant.BluetoothStatus;
+import cn.ctkqiang.bluetoothutilities.Constant.Constant;
+import cn.ctkqiang.bluetoothutilities.Constant.LogLevel;
+import cn.ctkqiang.bluetoothutilities.R;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;

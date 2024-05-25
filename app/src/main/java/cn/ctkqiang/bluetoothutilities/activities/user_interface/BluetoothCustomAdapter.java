@@ -1,4 +1,4 @@
-package com.johnmelodyme.bluetoothutilities.user_interface;
+package cn.ctkqiang.bluetoothutilities.user_interface;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -14,8 +14,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.johnmelodyme.bluetoothutilities.R;
-import com.johnmelodyme.bluetoothutilities.model.DiscoveredDevices;
+import cn.ctkqiang.bluetoothutilities.R;
+import cn.ctkqiang.bluetoothutilities.model.DiscoveredDevices;
 
 import java.util.ArrayList;
 import java.util.Arrays;

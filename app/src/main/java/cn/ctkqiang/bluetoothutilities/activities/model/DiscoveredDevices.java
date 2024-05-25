@@ -1,4 +1,4 @@
-package com.johnmelodyme.bluetoothutilities.model;
+package cn.ctkqiang.bluetoothutilities.model;
 
 import android.os.ParcelUuid;
 

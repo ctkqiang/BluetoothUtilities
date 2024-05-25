@@ -1,4 +1,4 @@
-package com.johnmelodyme.bluetoothutilities.activities;
+package cn.ctkqiang.bluetoothutilities.activities;
 
 import android.app.job.JobScheduler;
 import android.app.job.JobService;
@@ -20,13 +20,13 @@ import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.johnmelodyme.bluetoothutilities.Constant.BluetoothStatus;
-import com.johnmelodyme.bluetoothutilities.Constant.Constant;
-import com.johnmelodyme.bluetoothutilities.Constant.LogLevel;
-import com.johnmelodyme.bluetoothutilities.R;
-import com.johnmelodyme.bluetoothutilities.functions.Functions;
-import com.johnmelodyme.bluetoothutilities.model.DiscoveredDevices;
-import com.johnmelodyme.bluetoothutilities.user_interface.BluetoothCustomAdapter;
+import cn.ctkqiang.bluetoothutilities.Constant.BluetoothStatus;
+import cn.ctkqiang.bluetoothutilities.Constant.Constant;
+import cn.ctkqiang.bluetoothutilities.Constant.LogLevel;
+import cn.ctkqiang.bluetoothutilities.R;
+import cn.ctkqiang.bluetoothutilities.functions.Functions;
+import cn.ctkqiang.bluetoothutilities.model.DiscoveredDevices;
+import cn.ctkqiang.bluetoothutilities.user_interface.BluetoothCustomAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;

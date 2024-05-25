@@ -1,4 +1,4 @@
-package com.johnmelodyme.bluetoothutilities;
+package cn.ctkqiang.bluetoothutilities;
 
 import android.content.Context;
 
@@ -23,6 +23,6 @@ public class ExampleInstrumentedTest
     {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.johnmelodyme.bluetoothutilities", appContext.getPackageName());
+        assertEquals("cn.ctkqiang.bluetoothutilities", appContext.getPackageName());
     }
 }

@@ -1,4 +1,4 @@
-package com.johnmelodyme.bluetoothutilities.activities;
+package cn.ctkqiang.bluetoothutilities.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,9 +13,9 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.johnmelodyme.bluetoothutilities.Constant.LogLevel;
-import com.johnmelodyme.bluetoothutilities.R;
-import com.johnmelodyme.bluetoothutilities.functions.Functions;
+import cn.ctkqiang.bluetoothutilities.Constant.LogLevel;
+import cn.ctkqiang.bluetoothutilities.R;
+import cn.ctkqiang.bluetoothutilities.functions.Functions;
 
 public class ShowWebView extends AppCompatActivity
 {
